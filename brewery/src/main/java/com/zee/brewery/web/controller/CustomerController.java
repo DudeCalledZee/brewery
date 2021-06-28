@@ -3,19 +3,17 @@ package com.zee.brewery.web.controller;
 import com.zee.brewery.service.CustomerService;
 import com.zee.brewery.web.modal.BeerDto;
 import com.zee.brewery.web.modal.CustomerDto;
+
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseStatus;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import javax.validation.ConstraintViolationException;
+import javax.validation.Valid;
 
 @RequestMapping("/api/v1/customer")
 @RestController
@@ -32,7 +30,7 @@ public class CustomerController {
     return new ResponseEntity<>(customerService.getCustomerByID(customerId), HttpStatus.OK);
   }
   @PostMapping
-  public ResponseEntity handleCustomer(@RequestBody CustomerDto customerDto) {
+  public ResponseEntity handleCustomer(@Valid @RequestBody CustomerDto customerDto) {
     CustomerDto saveDto = customerService.saveNewCustomer(customerDto);
 
     HttpHeaders headers = new HttpHeaders();
@@ -44,7 +42,7 @@ public class CustomerController {
   }
 
   @PutMapping("/{customerId}")
-  public ResponseEntity handleUpdate(@PathVariable("customerId") UUID customerId, @RequestBody CustomerDto customerDto) {
+  public ResponseEntity handleUpdate(@PathVariable("customerId") UUID customerId, @Valid @RequestBody CustomerDto customerDto) {
     customerService.updateCustomer(customerId, customerDto);
 
     return new ResponseEntity(HttpStatus.NO_CONTENT);
@@ -55,4 +53,5 @@ public class CustomerController {
   public void deleteCustomer(@PathVariable("customerId") UUID customerId) {
     customerService.deleteById(customerId);
   }
+
 }
