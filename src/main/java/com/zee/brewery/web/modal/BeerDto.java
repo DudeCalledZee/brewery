@@ -1,5 +1,6 @@
 package com.zee.brewery.web.modal;
 
+import java.time.OffsetDateTime;
 import java.util.UUID;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -27,4 +28,7 @@ public class BeerDto {
 
   @Positive
   private Long upc;
+
+  private OffsetDateTime createdDate;
+  private OffsetDateTime lastUpdatedDate;
 }
